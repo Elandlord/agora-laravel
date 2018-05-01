@@ -3,9 +3,11 @@
 namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasPhotos;
 
 class News extends Model
 {
+    use HasPhotos;
 
 	protected $appends = [
 		'publish_year',

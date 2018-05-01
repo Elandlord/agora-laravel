@@ -10,8 +10,8 @@
         |
         */
         
-        import Project from './models/project';
-        import Discipline from './models/discipline';
+        import News from './models/news';
+        import EventEntity from './models/event';
         
     
         /*
@@ -26,8 +26,8 @@
         */
     
         window.models = {
-            project: Project,
-            discipline: Discipline,
+            news: News,
+            event: EventEntity,
         };
             
         

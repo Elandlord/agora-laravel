@@ -1,15 +1,18 @@
-import axios from 'axios';
+window._ = require('lodash');
 import Dropzone from 'dropzone';
 import Cropper from 'cropperjs';
 
-window.axios = axios;
 window.Dropzone = Dropzone;
 
-axios.defaults.headers.common['X-CSRF-TOKEN'] = Laravel.csrfToken;
-Dropzone.options.myAwesomeDropzone = {
-    headers: { "X-CSRF-TOKEN": Laravel.csrfToken },
-};
+try {
+    window.$ = window.jQuery = require('jquery');
 
-window._ = require('lodash');
-window.$ = window.jQuery = require('jquery');
-require('bootstrap-sass');
+    require('bootstrap-sass');
+} catch (e) {}
+
+window.axios = require('axios');
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+
+let token = document.head.querySelector('meta[name="csrf-token"]');
+window.axios.defaults.headers.common['X-CSRF-TOKEN'] = Laravel.csrfToken;

@@ -28,25 +28,24 @@ Route::post('photo/multi', 'cms\MultiPhotosController@store');
 
 Route::group(['prefix' => 'cms'],  function () {
     Route::group(['middleware' => ['auth']], function(){
-
-    	// --- CORE ROUTES ONLY
+        
+        // --- CORE ROUTES ONLY
         Route::get('/logout', 'cms\LogoutController@logout');
-   		Route::get('/', 'cms\DashBoardController@index');
+        Route::get('/', 'cms\DashBoardController@index');
         Route::get('/edit', 'cms\FrontController@edit');
         // ----------------- GENERIC ROUTES FOR EVERY PROJECT GO HERE ----------
-
-
+        
+        
         // ------ CUSTOM ROUTES GO UNDERNEATH HERE ----------------
         Route::resource('entity', 'cms\FrontController');
-
     });
 });
 
 Auth::routes();
-Route::get('home', $cms_namespace . 'HomeController@index');
-Route::get('/cropper', $cms_namespace . 'ImageHelperController@index');
-Route::resource('photo', $cms_namespace . 'PhotosController');
-Route::post('photo/multi', $cms_namespace . 'MultiPhotosController@store');
+Route::get('home', 'cms\HomeController@index');
+Route::get('/cropper', 'cms\ImageHelperController@index');
+Route::resource('photo', 'cms\PhotosController');
+Route::post('photo/multi', 'cms\MultiPhotosController@store');
 
 
 Route::group(['prefix' => 'cms'],  function () use ($cms_namespace, $web_namespace, $auth_namespace){
@@ -67,17 +66,17 @@ Route::group(['prefix' => 'cms'],  function () use ($cms_namespace, $web_namespa
 });
 
 // Authentication Routes...
-Route::get('login', $auth_namespace . 'LoginController@showLoginForm')->name('login');
-Route::post('login', $auth_namespace . 'LoginController@login');
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
 
 // Registration Routes...
-Route::get('register', $auth_namespace . 'RegisterController@showRegistrationForm')->name('register');
-Route::post('register', $auth_namespace . 'RegisterController@register');
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('register', 'Auth\RegisterController@register');
 
 // Password Reset Routes...
-Route::get('password/reset', $auth_namespace . 'ForgotPasswordController@showLinkRequestForm');
-Route::post('password/email', $auth_namespace . 'ForgotPasswordController@sendResetLinkEmail');
-Route::get('password/reset/{token}', $auth_namespace . 'ResetPasswordController@showResetForm');
-Route::post('password/reset', $auth_namespace . 'ResetPasswordController@reset');
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::get('home', $cms_namespace . 'HomeController@index');

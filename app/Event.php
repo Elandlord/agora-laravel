@@ -3,9 +3,11 @@
 namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasPhotos;
 
 class Event extends Model
 {
+    use HasPhotos;
 
 	protected $appends = [
 		'year',
