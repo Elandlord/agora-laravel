@@ -1,0 +1,14 @@
+require('jquery');
+require('bootstrap-sass');
+require('fastclick');
+require('jquery-slimscroll');
+require('admin-lte');
+require('select2');
+require('admin-lte/plugins/input-mask/jquery.inputmask');
+require('admin-lte/plugins/input-mask/jquery.inputmask.date.extensions');
+require('admin-lte/plugins/input-mask/jquery.inputmask.extensions');
+require('daterangepicker');
+require('bootstrap-datepicker');
+require('bootstrap-colorpicker');
+require('bootstrap-timepicker');
+require('admin-lte/plugins/iCheck/icheck.min');
