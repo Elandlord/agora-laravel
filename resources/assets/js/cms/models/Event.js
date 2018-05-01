@@ -67,9 +67,9 @@ class Event extends Model {
             },
 
             photo: {
-                type: 'photo',
+                type: 'multi_photo',
                 translation: 'Kies een foto',
-                dimensions: {"16x9": 'landscape', "1x1": 'portrait'},
+                dimensions: {"1x1": 'portrait', "16x9": 'landscape'},
                 validation: new Validator({
                     required: true
                 }),

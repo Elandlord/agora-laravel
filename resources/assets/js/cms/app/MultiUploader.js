@@ -42,9 +42,15 @@ class MultiUploader {
 
 			this.dropzone.on('completemultiple', (files) => {
 				console.log('CompleteMultiple');
-				for(let file in files){
-					this.dropzone.removeFile(file);
+
+				if(files.length == 1){
+					this.dropzone.removeFile(files[0])
+				}else{
+					for(let file in files){
+						this.dropzone.removeFile(file);
+					}
 				}
+				
 			});
 
 		});
