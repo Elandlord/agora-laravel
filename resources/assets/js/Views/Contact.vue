@@ -48,14 +48,14 @@
 							inline
 							right
 							space-outside-sides-md xs-space-outside-up-xs
-							'>Ma - Vr: 09:00 - 17:00
+							'><span class="text-color-main">T</span> (0594) 51 26 58
 						</h4>
 						<h4 class='
 							text-color-light
 							inline
 							right
 							space-outside-sides-md xs-space-outside-up-xs
-							sm-font-md xs-font-xs'>info@agoraleek.nl
+							sm-font-md xs-font-xs'><span class="text-color-main">E</span> info@rodenburgtheater.nl
 						</h4>
 					</div>
 				</div>
