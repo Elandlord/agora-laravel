@@ -1,0 +1,17 @@
+.active-municipality {
+  fill: #01569B;
+}
+
+.active-municipality:hover {
+  fill: #043f70;
+}
+
+.inactive-municipality {
+  fill: #bdc3c7;
+}
+
+.inactive-municipality:hover {
+  fill: #A5A4A4;
+}
+
+polygon, polyline, g, path { transition: fill .4s ease; }
