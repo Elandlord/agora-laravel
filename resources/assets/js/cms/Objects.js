@@ -29,5 +29,4 @@
             news: News,
             event: EventEntity,
         };
-            
         

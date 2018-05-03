@@ -1,12 +1,12 @@
 <template>
-<div>
+<div v-if="news != null">
    <a :href="'#nieuws/page/' + news.id">
       <div class='col-lg-12 inline-block bg-light-opacity-lg reset-padding space-outside-sm'>
 
           <div class='col-lg-6 col-md-6 col-sm-6 col-xs-12 reset-padding'>
 
             <div class='image border-left border-main sm-border-none xs-border-none' style='width: 100%;'>
-              <img class='width-auto' :src='news.thumbnail'/>
+              <img class='width-auto' :src='news.landscape'/>
             </div>
 
           </div>
@@ -20,7 +20,7 @@
 
           </div>
 
-          <a :href="'#nieuws/page/' + news.id" style="left: 52.5%; bottom: 12px;" class="hidden-xs font-sm position-bottom-center text-uppercase space-inside-sides-sm space-inside-xs bg-accent border-none text-color-light inline">LEES MEER</a>
+          <a :href="'#/nieuws/page/' + news.id" style="left: 52.5%; bottom: 12px;" class="hidden-xs font-sm position-bottom-center text-uppercase space-inside-sides-sm space-inside-xs bg-accent border-none text-color-light inline">LEES MEER</a>
 
           <button   class="font-sm visible-xs  space-outside-sm space-outside-sides-sm  text-uppercase space-inside-sides-sm space-inside-xs bg-accent border-none text-color-light">Lees meer</button>
 

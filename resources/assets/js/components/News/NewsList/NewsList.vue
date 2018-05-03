@@ -17,8 +17,8 @@
             <i class='fa fa-cog fa-spin fa-5x fa-fw text-color-accent'></i>
             <h2 class='text-color-light space-outside-md font-md '>Nieuws laden..</h2>
         </div>
-        <news-headline  :news='newsHeadline' ></news-headline>
-        <news-item v-for="(index, item) in news" :news='item' v-bind:key="index" class='space-outside-up-sm'></news-item>
+        <news-headline :news='newsHeadline' ></news-headline>
+        <news-item v-for="(item, index) in news" :news='item' v-bind:key="index" class='space-outside-up-sm'></news-item>
 
         <div class="text-center" v-if="isVisible">
             <h2 class='text-color-light'>Geen nieuwsberichten gevonden.</h2>
@@ -27,8 +27,6 @@
 </template>
 
 <script>
-	import News from '../../../Models/News';
-
     export default {
 
         props: {
@@ -49,8 +47,8 @@
         mounted() {
             console.log('Component mounted.');
 
-            News.all((news) => {
-                if(news.length == 0) {
+            Factory.getStaticInstance('news').all().then((news) => {
+                if(news.length === 0) {
                   this.isVisible = true;
                 } else {
                   this.isVisible = false;
@@ -62,7 +60,6 @@
                 }else{
                     this.news = news;
                 }
-
             });
         },
 
@@ -72,7 +69,7 @@
                 if(this.searchParameters.length >= 3){
                   this.loading = true;
 
-                  News.search(this.searchParameters, (news) => {
+                  Factory.getStaticInstance('news').search(this.searchParameters).then((news) => {
                     if(news.length == 0) {
                       this.isVisible = true;
                     } else {

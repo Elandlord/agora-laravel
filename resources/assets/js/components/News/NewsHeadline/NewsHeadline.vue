@@ -1,9 +1,9 @@
 <template>
-	<div >
+	<div v-if="news != null">
 		<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 reset-padding space-outside-sm' v-if="news != null">
 			<a :href="'#nieuws/page/' + news.id">
 				<div class='image' style='width: 100%;'>
-					<img class='width-auto' :src='news.thumbnail'/>
+					<img class='width-auto' :src='news.landscape'/>
 				</div>
 				<div class='border-top border-accent '>
 					<div class='bg-accent reset-padding inline-block space-inside-sides-lg'>
@@ -21,7 +21,7 @@
 						{{ news.body | cutString |  addDots }}
 					</p>
 
-					<a :href="'#nieuws/page/' + news.id" class="hidden-xs font-sm text-uppercase space-inside-sides-sm space-inside-xs bg-accent border-none text-color-light inline">LEES MEER</a>
+					<a :href="'#/nieuws/page/' + news.id" class="hidden-xs font-sm text-uppercase space-inside-sides-sm space-inside-xs bg-accent border-none text-color-light inline">LEES MEER</a>
 				</div>
 			</a>
 		</div>

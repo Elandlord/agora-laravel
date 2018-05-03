@@ -21,7 +21,7 @@
         </div>
       </div>
       <agenda-headline v-if="agendaHeadline != null && headline == 'yes'" :agendaItem="agendaHeadline"></agenda-headline>
-      <agenda-item v-if="agendaItems != null" v-for="(index, item) in agendaItems" v-bind:key="index" :trimtext="trimtext"  :agendaItem="item"> </agenda-item>
+      <agenda-item v-if="agendaItems != null" v-for="(item, index) in agendaItems" v-bind:key="index" :trimtext="trimtext"  :agendaItem="item"> </agenda-item>
 
       <div class="text-center" v-if="isVisible">
         <h2 class='text-color-light'>Geen geplande evenementen gevonden.</h2>
@@ -36,8 +36,6 @@
 </style>
 
 <script type="text/javascript">
-  import AgendaItem from '../../../Models/AgendaItem';
-
   export default {
     props: {
       headline: null,
@@ -58,25 +56,23 @@
     mounted() {
       console.log('agenda-list component is mounted');
 
-      AgendaItem.all((agendaItems) => {
-        if(agendaItems.length == 0) {
-          this.isVisible = true;
-        } else {
-          this.isVisible = false;
-        }
+      Factory.getStaticInstance('event').all().then((agendaItems) => {
+          if(agendaItems.length == 0) {
+            this.isVisible = true;
+          } else {
+            this.isVisible = false;
+          }
 
-        if(this.headline != null){
-          this.agendaHeadline = agendaItems.shift();
-        }
+          if(this.headline != null){
+            this.agendaHeadline = agendaItems.shift();
+          }
 
-        if(this.limit != null){
-          this.agendaItems = agendaItems.splice(0, this.limit);
-        }else{
-          this.agendaItems = agendaItems;
-        }
-
+          if(this.limit != null){
+            this.agendaItems = agendaItems.splice(0, this.limit);
+          }else{
+            this.agendaItems = agendaItems;
+          }
       });
-
     },
 
     methods:

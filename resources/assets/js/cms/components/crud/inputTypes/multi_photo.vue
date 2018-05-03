@@ -23,9 +23,9 @@
 				<div>	
 
 					<!-- Place a cropper on the photo for each dimension. -->
-                    <div v-if="inputController.photos !== null" v-for="(photo, index) in inputController.photos">                    
-                        <div :key="dimension" class="col-lg-6" v-for="(dimensionName, dimension) in attribute.dimensions">
-                            <cropper  :photo="photo" :dir="dimensionName" :dimension="dimension" > </cropper>
+                    <div v-if="inputController.photos !== null" v-for="(photo, index) in inputController.photos">      
+                        <div :key="dimension" class="col-lg-6" v-for="(dimensionName, dimension) in attribute.dimensions">        
+                            <cropper :photo="photo" :dir="dimensionName" :dimension="dimension" > </cropper>
                         </div>
                     </div>
 					

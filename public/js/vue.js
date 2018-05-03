@@ -543,113 +543,6 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 26:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(4);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-var News = function (_Model) {
-	_inherits(News, _Model);
-
-	function News() {
-		_classCallCheck(this, News);
-
-		return _possibleConstructorReturn(this, (News.__proto__ || Object.getPrototypeOf(News)).apply(this, arguments));
-	}
-
-	_createClass(News, [{
-		key: 'save',
-		value: function save() {
-			API.post('news/save', this.data(), this.success, function () {
-				// notify the user if something went wrong.
-			});
-		}
-	}, {
-		key: 'update',
-		value: function update() {
-			API.post('news/update/' + this.id, this.data(), this.success, function () {
-				// notify the user if something went wrong.
-			});
-		}
-	}, {
-		key: 'delete',
-		value: function _delete() {
-			var _this2 = this;
-
-			var confirm = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-			var success = arguments[1];
-
-			if (confirm == true) {
-				Notifier.askConfirmation(function () {
-					API.delete('news', _this2.id);
-					success();
-				});
-			} else {
-				API.delete('news', this.id);
-				success();
-			}
-		}
-	}, {
-		key: 'with',
-		value: function _with(relation, factory) {
-			var _this3 = this;
-
-			API.get('news/' + this.id + '/' + relation, function (relationData) {
-				_this3[relation] = factory(relationData);
-			});
-		}
-	}], [{
-		key: 'all',
-		value: function all(success, failure) {
-			API.get('news', function (data) {
-				var all = [];
-				for (var object in data) {
-					var newObject = new News(data[object]);
-					all.push(newObject);
-				}
-				success(all);
-			}, failure);
-		}
-	}, {
-		key: 'find',
-		value: function find(id, success, failure) {
-			API.get('news/' + id, function (data) {
-				var news = new News(data);
-				success(news);
-				Event.fire('newsLoaded');
-			}, failure);
-		}
-	}, {
-		key: 'search',
-		value: function search(searchParameters, success, failure) {
-			API.get('news?searchParameters=' + searchParameters, function (data) {
-				var all = [];
-				for (var object in data) {
-					var newObject = new News(data[object]);
-					all.push(newObject);
-				}
-				success(all);
-			}, failure);
-		}
-	}]);
-
-	return News;
-}(__WEBPACK_IMPORTED_MODULE_0__Model__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = (News);
-
-/***/ }),
-
 /***/ 4:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -712,7 +605,6 @@ var Model = function () {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Models_News__ = __webpack_require__(26);
 //
 //
 //
@@ -763,8 +655,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -786,7 +676,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     beforeMount: function beforeMount() {
         var _this = this;
 
-        __WEBPACK_IMPORTED_MODULE_0__Models_News__["a" /* default */].find(this.$route.params.id, function (news) {
+        Factory.getStaticInstance('news').find(this.$route.params.id).then(function (news) {
             _this.news = news;
         });
     },
@@ -804,124 +694,130 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _vm.news != null
-        ? _c("generic-page", { attrs: { title: _vm.news.title } }, [
-            _c("div", { staticClass: "container" }, [
-              _c("div", { staticClass: "row space-outside-md" }, [
-                _c("div", { staticClass: "col-lg-12" }, [
-                  _c("div", { staticClass: "row" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "col-lg-12 col-md-12 col-sm-12 reset-padding space-inside-sm"
-                      },
-                      [
-                        _c(
-                          "a",
-                          {
-                            staticClass:
-                              "\n                                        font-sm text-uppercase text-color-light\n                                        space-inside-sides-sm space-inside-xs xs-space-inside-sm\n                                        bg-accent\n                                        border-none\n                                        inline xs-inline-block\n                                        xs-height-auto\n                                    ",
-                            attrs: { href: "#/nieuws" }
-                          },
-                          [_vm._v("GA TERUG")]
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "col-lg-6 col-md-6 col-sm-4 col-xs-12 reset-padding"
-                      },
-                      [
-                        _c("img", {
-                          staticClass:
-                            "border-right border-main xs-border-none",
-                          staticStyle: { width: "100%" },
-                          attrs: { src: _vm.news.thumbnail }
-                        })
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "col-lg-6 col-md-6 col-sm-8 col-xs-12 reset-padding"
-                      },
-                      [
+  return _vm.news != null
+    ? _c(
+        "div",
+        [
+          _vm.news != null
+            ? _c("generic-page", { attrs: { title: _vm.news.title } }, [
+                _c("div", { staticClass: "container" }, [
+                  _c("div", { staticClass: "row space-outside-md" }, [
+                    _c("div", { staticClass: "col-lg-12" }, [
+                      _c("div", { staticClass: "row" }, [
                         _c(
                           "div",
                           {
                             staticClass:
-                              "bg-main space-inside-sm space-inside-sides-sm inline-block"
+                              "col-lg-12 col-md-12 col-sm-12 reset-padding space-inside-sm"
                           },
                           [
-                            _c("h2", { staticClass: "text-color-light" }, [
-                              _vm._v(
-                                _vm._s(_vm.news.publish_day) +
-                                  "  " +
-                                  _vm._s(
-                                    _vm._f("cutString")(
-                                      _vm._f("uppercase")(_vm.news.month_name)
-                                    )
-                                  )
-                              )
-                            ]),
-                            _vm._v(" "),
                             _c(
-                              "h1",
+                              "a",
                               {
                                 staticClass:
-                                  "space-inside-xs right text-color-light"
+                                  "\n                                        font-sm text-uppercase text-color-light\n                                        space-inside-sides-sm space-inside-xs xs-space-inside-sm\n                                        bg-accent\n                                        border-none\n                                        inline xs-inline-block\n                                        xs-height-auto\n                                    ",
+                                attrs: { href: "#/nieuws" }
                               },
-                              [_vm._v(_vm._s(_vm.news.publish_year))]
+                              [_vm._v("GA TERUG")]
                             )
                           ]
                         ),
                         _vm._v(" "),
                         _c(
-                          "h2",
+                          "div",
                           {
                             staticClass:
-                              "text-color-light space-outside-sm space-outside-left-sm"
+                              "col-lg-6 col-md-6 col-sm-4 col-xs-12 reset-padding"
                           },
-                          [_vm._v(_vm._s(_vm.news.title))]
+                          [
+                            _c("div", { staticClass: "image" }, [
+                              _c("img", {
+                                staticClass:
+                                  "border-right border-main xs-border-none",
+                                staticStyle: { width: "100%" },
+                                attrs: { src: _vm.news.landscape }
+                              })
+                            ])
+                          ]
                         ),
                         _vm._v(" "),
                         _c(
-                          "h3",
+                          "div",
                           {
                             staticClass:
-                              "text-color-light space-outside-sm space-outside-left-sm"
+                              "col-lg-6 col-md-6 col-sm-8 col-xs-12 reset-padding"
                           },
-                          [_vm._v("Auteur: " + _vm._s(_vm.news.author))]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "p",
-                          {
-                            staticClass:
-                              "text-color-light space-outside-left-sm"
-                          },
-                          [_vm._v(_vm._s(_vm.news.body))]
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "bg-main space-inside-sm space-inside-sides-sm inline-block"
+                              },
+                              [
+                                _c("h2", { staticClass: "text-color-light" }, [
+                                  _vm._v(
+                                    _vm._s(_vm.news.publish_day) +
+                                      "  " +
+                                      _vm._s(
+                                        _vm._f("cutString")(
+                                          _vm._f("uppercase")(
+                                            _vm.news.month_name
+                                          )
+                                        )
+                                      )
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "h1",
+                                  {
+                                    staticClass:
+                                      "space-inside-xs right text-color-light"
+                                  },
+                                  [_vm._v(_vm._s(_vm.news.publish_year))]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "h2",
+                              {
+                                staticClass:
+                                  "text-color-light space-outside-sm space-outside-left-sm"
+                              },
+                              [_vm._v(_vm._s(_vm.news.title))]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "h3",
+                              {
+                                staticClass:
+                                  "text-color-light space-outside-sm space-outside-left-sm"
+                              },
+                              [_vm._v("Auteur: " + _vm._s(_vm.news.author))]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "p",
+                              {
+                                staticClass:
+                                  "text-color-light space-outside-left-sm"
+                              },
+                              [_vm._v(_vm._s(_vm.news.body))]
+                            )
+                          ]
                         )
-                      ]
-                    )
+                      ])
+                    ])
                   ])
                 ])
               ])
-            ])
-          ])
-        : _vm._e()
-    ],
-    1
-  )
+            : _vm._e()
+        ],
+        1
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -4093,6 +3989,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -4123,18 +4021,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     beforeMount: function beforeMount() {
         var _this = this;
 
-        __WEBPACK_IMPORTED_MODULE_0__Models_Activity__["a" /* default */].find(this.$route.params.id, function (activity) {
-
-            activity.with('tag', function (tags) {
-                return tags.map(function (tag) {
-                    return new __WEBPACK_IMPORTED_MODULE_1__Models_Tag__["a" /* default */](tag);
-                });
-            });
-
-            setTimeout(function () {
-                _this.activity = activity;
-                console.log(_this.activity);
-            }, 400);
+        Factory.getStaticInstance('event').find(this.$route.params.id).then(function (activity) {
+            _this.activity = activity;
         });
     },
     mounted: function mounted() {
@@ -4235,7 +4123,7 @@ var Activity = function (_Model) {
 	return Activity;
 }(__WEBPACK_IMPORTED_MODULE_0__Model__["a" /* default */]);
 
-/* harmony default export */ __webpack_exports__["a"] = (Activity);
+/* unused harmony default export */ var _unused_webpack_default_export = (Activity);
 
 /***/ }),
 
@@ -4318,7 +4206,7 @@ var Tag = function (_Model) {
 	return Tag;
 }(__WEBPACK_IMPORTED_MODULE_0__Model__["a" /* default */]);
 
-/* harmony default export */ __webpack_exports__["a"] = (Tag);
+/* unused harmony default export */ var _unused_webpack_default_export = (Tag);
 
 /***/ }),
 
@@ -4329,227 +4217,240 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _vm.activity != null
-        ? _c("generic-page", { attrs: { title: _vm.activity.title } }, [
-            _c("div", { staticClass: "container" }, [
-              _c("div", { staticClass: "row space-outside-md" }, [
-                _c("div", { staticClass: "col-lg-12" }, [
-                  _c("div", { staticClass: "row" }, [
+  return _vm.activity != null
+    ? _c(
+        "div",
+        [
+          _vm.activity != null
+            ? _c("generic-page", { attrs: { title: _vm.activity.title } }, [
+                _c("div", { staticClass: "container" }, [
+                  _c("div", { staticClass: "row space-outside-md" }, [
+                    _c("div", { staticClass: "col-lg-12" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "col-lg-12 col-md-12 col-sm-12 reset-padding space-inside-sm"
+                          },
+                          [
+                            _c(
+                              "a",
+                              {
+                                staticClass:
+                                  "\n                                        font-sm text-uppercase text-color-light\n                                        space-inside-sides-sm space-inside-xs xs-space-inside-sm\n                                        bg-accent\n                                        border-none\n                                        inline xs-inline-block\n                                        xs-height-auto\n                                    ",
+                                attrs: { href: "#/agenda" }
+                              },
+                              [_vm._v("GA TERUG")]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "col-lg-6 col-md-6 col-sm-6 reset-padding"
+                          },
+                          [
+                            _c("div", { staticClass: "image" }, [
+                              _c("img", {
+                                staticClass:
+                                  "border-right border-main xs-border-none",
+                                attrs: { src: _vm.activity.landscape }
+                              })
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "\n                                col-lg-6 col-md-6 col-sm-6\n                                reset-padding\n                                xs-text-center\n                            "
+                          },
+                          [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "\n                                    bg-main\n                                    space-inside-sm space-inside-sides-sm\n                                    inline-block\n                                    xs-full-width\n                                    xs-space-outside-down-md\n                                "
+                              },
+                              [
+                                _c(
+                                  "h2",
+                                  {
+                                    staticClass:
+                                      "\n                                        text-color-light\n                                        xs-inline-block\n                                        xs-space-outside-right-sm\n                                    "
+                                  },
+                                  [
+                                    _vm._v(
+                                      _vm._s(_vm.activity.day) +
+                                        " " +
+                                        _vm._s(
+                                          _vm._f("cutString")(
+                                            _vm._f("uppercase")(
+                                              _vm.activity.month_name
+                                            )
+                                          )
+                                        )
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "h1",
+                                  {
+                                    staticClass:
+                                      "space-inside-xs right xs-clear-floats xs-inline-block text-color-light"
+                                  },
+                                  [_vm._v("2017")]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "h3",
+                              {
+                                staticClass:
+                                  "\n                                    text-color-light\n                                    space-outside-up-sm space-outside-left-sm\n                                    xs-inline-block\n                                "
+                              },
+                              [_vm._v("GENRE")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.activity.tag, function(tag) {
+                              return _vm.activity != null
+                                ? _c(
+                                    "p",
+                                    {
+                                      staticClass:
+                                        "\n                                    text-color-light\n                                    space-outside-left-sm xs-space-outside-up-sm\n                                    xs-inline-block\n                                "
+                                    },
+                                    [_vm._v(_vm._s(tag.name))]
+                                  )
+                                : _vm._e()
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "h3",
+                              {
+                                staticClass:
+                                  "\n                                    text-color-light\n                                    space-outside-up-sm space-outside-left-sm\n                                    xs-inline-block\n                                "
+                              },
+                              [_vm._v("PRIJS")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "p",
+                              {
+                                staticClass:
+                                  "\n                                    text-color-light\n                                    space-outside-left-sm\n                                    xs-inline-block\n                                "
+                              },
+                              [_vm._v("€ " + _vm._s(_vm.activity.price))]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "h3",
+                              {
+                                staticClass:
+                                  "\n                                    text-color-light\n                                    space-outside-up-sm space-outside-left-sm\n                                    xs-inline-block\n                                "
+                              },
+                              [_vm._v("TIJD")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "p",
+                              {
+                                staticClass:
+                                  "\n                                    text-color-light\n                                    space-outside-left-sm\n                                    xs-inline-block\n                                "
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("cutTime")(_vm.activity.time_start)
+                                  ) +
+                                    " tot " +
+                                    _vm._s(
+                                      _vm._f("cutTime")(_vm.activity.time_end)
+                                    )
+                                )
+                              ]
+                            )
+                          ],
+                          2
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row xs-space-inside-sides-sm" }, [
                     _c(
                       "div",
                       {
                         staticClass:
-                          "col-lg-12 col-md-12 col-sm-12 reset-padding space-inside-sm"
+                          "col-lg-12 col-md-12 col-sm-12 reset-padding"
                       },
                       [
                         _c(
                           "a",
                           {
                             staticClass:
-                              "\n                                        font-sm text-uppercase text-color-light\n                                        space-inside-sides-sm space-inside-xs xs-space-inside-sm\n                                        bg-accent\n                                        border-none\n                                        inline xs-inline-block\n                                        xs-height-auto\n                                    ",
-                            attrs: { href: "#/agenda" }
+                              " font-sm text-uppercase space-inside-sides-sm space-inside-xs bg-accent border-none text-color-light",
+                            attrs: { href: "#contact" }
                           },
-                          [_vm._v("GA TERUG")]
+                          [_vm._v("RESERVEREN")]
                         )
                       ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "col-lg-6 col-md-6 col-sm-6 reset-padding"
-                      },
-                      [
-                        _c("img", {
-                          staticClass:
-                            "border-right border-main xs-border-none",
-                          attrs: { src: _vm.activity.thumbnail }
-                        })
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "\n                                col-lg-6 col-md-6 col-sm-6\n                                reset-padding\n                                xs-text-center\n                            "
-                      },
-                      [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "\n                                    bg-main\n                                    space-inside-sm space-inside-sides-sm\n                                    inline-block\n                                    xs-full-width\n                                    xs-space-outside-down-md\n                                "
-                          },
-                          [
-                            _c(
-                              "h2",
-                              {
-                                staticClass:
-                                  "\n                                        text-color-light\n                                        xs-inline-block\n                                        xs-space-outside-right-sm\n                                    "
-                              },
-                              [
-                                _vm._v(
-                                  _vm._s(_vm.activity.day) +
-                                    " " +
-                                    _vm._s(
-                                      _vm._f("cutString")(
-                                        _vm._f("uppercase")(
-                                          _vm.activity.month_name
-                                        )
-                                      )
-                                    )
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "h1",
-                              {
-                                staticClass:
-                                  "space-inside-xs right xs-clear-floats xs-inline-block text-color-light"
-                              },
-                              [_vm._v("2017")]
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "h3",
-                          {
-                            staticClass:
-                              "\n                                    text-color-light\n                                    space-outside-up-sm space-outside-left-sm\n                                    xs-inline-block\n                                "
-                          },
-                          [_vm._v("GENRE")]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.activity.tag, function(tag) {
-                          return _vm.activity != null
-                            ? _c(
-                                "p",
-                                {
-                                  staticClass:
-                                    "\n                                    text-color-light\n                                    space-outside-left-sm xs-space-outside-up-sm\n                                    xs-inline-block\n                                "
-                                },
-                                [_vm._v(_vm._s(tag.name))]
-                              )
-                            : _vm._e()
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "h3",
-                          {
-                            staticClass:
-                              "\n                                    text-color-light\n                                    space-outside-up-sm space-outside-left-sm\n                                    xs-inline-block\n                                "
-                          },
-                          [_vm._v("PRIJS")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "p",
-                          {
-                            staticClass:
-                              "\n                                    text-color-light\n                                    space-outside-left-sm\n                                    xs-inline-block\n                                "
-                          },
-                          [_vm._v("€ " + _vm._s(_vm.activity.price))]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "h3",
-                          {
-                            staticClass:
-                              "\n                                    text-color-light\n                                    space-outside-up-sm space-outside-left-sm\n                                    xs-inline-block\n                                "
-                          },
-                          [_vm._v("TIJD")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "p",
-                          {
-                            staticClass:
-                              "\n                                    text-color-light\n                                    space-outside-left-sm\n                                    xs-inline-block\n                                "
-                          },
-                          [
-                            _vm._v(
-                              _vm._s(
-                                _vm._f("cutTime")(_vm.activity.time_start)
-                              ) +
-                                " tot " +
-                                _vm._s(_vm._f("cutTime")(_vm.activity.time_end))
-                            )
-                          ]
-                        )
-                      ],
-                      2
                     )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "row xs-space-inside-sides-sm" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass: "col-lg-12 col-md-12 col-sm-12 reset-padding"
-                  },
-                  [
-                    _c(
-                      "a",
-                      {
-                        staticClass:
-                          " font-sm text-uppercase space-inside-sides-sm space-inside-xs bg-accent border-none text-color-light",
-                        attrs: { href: "#contact" }
-                      },
-                      [_vm._v("RESERVEREN")]
-                    )
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "row space-outside-md xs-space-inside-sides-sm"
-                },
-                [
+                  ]),
+                  _vm._v(" "),
                   _c(
                     "div",
                     {
-                      staticClass: "col-lg-12 col-md-12 col-sm-12 reset-padding"
+                      staticClass:
+                        "row space-outside-md xs-space-inside-sides-sm"
                     },
                     [
                       _c(
-                        "h2",
+                        "div",
                         {
-                          staticClass: "text-color-light space-outside-down-md"
+                          staticClass:
+                            "col-lg-12 col-md-12 col-sm-12 reset-padding"
                         },
                         [
-                          _vm._v(
-                            _vm._s(_vm._f("uppercase")(_vm.activity.title))
-                          )
+                          _c(
+                            "h2",
+                            {
+                              staticClass:
+                                "text-color-light space-outside-down-md"
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(_vm._f("uppercase")(_vm.activity.title))
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "text-color-light" }, [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(
+                                  _vm._f("nl2br")(_vm.activity.description)
+                                ) +
+                                "\n                        "
+                            )
+                          ])
                         ]
-                      ),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "text-color-light" }, [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(_vm._f("nl2br")(_vm.activity.description)) +
-                            "\n                        "
-                        )
-                      ])
+                      )
                     ]
                   )
-                ]
-              )
-            ])
-          ])
-        : _vm._e()
-    ],
-    1
-  )
+                ])
+              ])
+            : _vm._e()
+        ],
+        1
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true

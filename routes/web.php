@@ -22,10 +22,6 @@ Route::post('/mail/contact-mail', 'MailController@contactMail');
  * CMS ROUTES
  */
 
-Route::get('/cropper', 'cms\ImageHelperController@index');
-Route::resource('photo', 'cms\PhotosController');
-Route::post('photo/multi', 'cms\MultiPhotosController@store');
-
 Route::group(['prefix' => 'cms'],  function () {
     Route::group(['middleware' => ['auth']], function(){
         

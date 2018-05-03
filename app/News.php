@@ -15,8 +15,8 @@ class News extends Model
 		'publish_day',
 		'month_name',
         'day_name',
-        'thumbnail',
-        'square',
+        'landscape',
+        'portrait',
 	];
 
     protected $fillable = [

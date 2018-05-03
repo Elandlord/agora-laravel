@@ -47,6 +47,13 @@
     window.toastr = toaster;
     window.moment = require('moment');
 
+    // require('material-design-icons');
+    require('./cms/core/helpers/Classes');
+    require('./cms/core/imports');
+
+    // custom models for cms
+    require('./cms/Objects');
+
     /*
     |--------------------------------------------------------------------------
     | Settings and init
@@ -85,7 +92,7 @@
     */
     Vue.component('image-display', require('./components/ImageDisplay.vue'));
     Vue.component('image-uploader', require('./components/ImageUploader.vue'));
-    Vue.component('cropper', require('./components/Cropper.vue'));
+    Vue.component('cropper', require('./cms/components/Cropper.vue'));
 
     // Agora lay-out components
     Vue.component('example', require('./components/Example.vue'));

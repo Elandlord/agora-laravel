@@ -14,8 +14,10 @@ class Event extends Model
 		'month',
 		'day',
 		'month_name',
-    'thumbnail',
-    'day_name',
+        'thumbnail',
+        'day_name',
+        'landscape',
+        'portrait',
 	];
 
     protected $fillable = [
@@ -79,25 +81,5 @@ class Event extends Model
             ['model_id', $this->id],
             ['type', 'event'],
         ])->first();
-    }
-
-    public function getThumbnailAttribute()
-    {
-        if($this->photo() != null){
-            return "/images/event/{$this->id}/16x11/{$this->photo()->filename}";
-        }else{
-            return "https://www.bakkerijkosters.nl/afbeeldingen/geen_afbeelding_beschikbaar_gr.gif";
-        }
-
-    }
-
-    public function getSquareAttribute()
-    {
-        if($this->photo() != null){
-            return "/images/event/{$this->id}/1x1/{$this->photo()->filename}";
-        }else{
-            return "https://www.bakkerijkosters.nl/afbeeldingen/geen_afbeelding_beschikbaar_gr.gif";
-        }
-
     }
 }

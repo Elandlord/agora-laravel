@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="agendaItem != null">
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 space-outside-down-sm ">
     <div class="border-bottom border-accent reset-padding">
       <div  style="position: relative; top: 1px"
@@ -25,7 +25,7 @@
     <div class="bg-light-opacity-lg relative inline-block" style="width: 100%;">
       <div class="col-lg-6 col-md-6 col-sm-6 reset-padding">
         <div  class="image bg-secondary">
-          <img class="width-auto" :src="agendaItem.thumbnail">
+          <img class="width-auto" :src="agendaItem.landscape">
         </div>
       </div>
 
@@ -88,6 +88,7 @@ export default {
   },
   mounted() {
     console.log('agenda-item is mounted');
+    console.log(this.agendaItem);
   }
 }
 </script>

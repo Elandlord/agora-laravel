@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-if="news != null">
 		<generic-page :title='news.title' v-if="news != null">
 
             <div class='container'>
@@ -20,9 +20,9 @@
                             </div>
 
                             <div class='col-lg-6 col-md-6 col-sm-4 col-xs-12 reset-padding'>
-
-                                <img :src='news.thumbnail' class='border-right border-main xs-border-none' style='width: 100%;'/>
-
+                                <div class="image">
+                                    <img :src='news.landscape' class='border-right border-main xs-border-none' style='width: 100%;'/>
+                                </div>
                             </div>
 
                             <div class='col-lg-6 col-md-6 col-sm-8 col-xs-12 reset-padding'>
@@ -49,8 +49,6 @@
 </template>
 
 <script>
-    import News from '../../../Models/News';
-
     export default {
 
     	data(){
@@ -70,7 +68,7 @@
         },
 
         beforeMount(){
-            News.find(this.$route.params.id, (news) => {
+            Factory.getStaticInstance('news').find(this.$route.params.id).then((news) => {
                 this.news = news;
             });
         },

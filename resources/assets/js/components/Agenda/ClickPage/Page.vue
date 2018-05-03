@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-if="activity != null">
 		<generic-page :title='activity.title' v-if="activity != null">
 
             <div class='container'>
@@ -19,7 +19,9 @@
                             </div>
 
                             <div class='col-lg-6 col-md-6 col-sm-6 reset-padding'>
-                                <img :src='activity.thumbnail' class='border-right border-main xs-border-none' />
+                                <div class="image">
+                                    <img :src='activity.landscape' class='border-right border-main xs-border-none' />
+                                </div>
                             </div>
 
                             <div class='
@@ -132,21 +134,8 @@
         },
 
         beforeMount(){
-            Activity.find(this.$route.params.id, (activity) => {
-
-                activity.with('tag', (tags) => {
-                    return tags.map((tag) => {
-                        return new Tag(tag);
-                    });
-                });
-
-
-
-                setTimeout(() => {
+            Factory.getStaticInstance('event').find(this.$route.params.id).then((activity) => {
                     this.activity = activity;
-                    console.log(this.activity);
-                }, 400);   
-
             });
         },
 
