@@ -90,4 +90,10 @@ class NewsController extends Controller
         News::find($id)->delete();
         return response()->json([], 200);
     }
+
+    public function search(Request $request){
+        $search = "%". $request->input('search') . "%";
+        $news = News::where("title", "LIKE", $search)->get();
+        return response()->json($news);
+    }
 }

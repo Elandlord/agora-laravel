@@ -2,7 +2,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div v-if="news != null && search == 'yes'">
             <div class='col-lg-8 space-outside-md'>
-              <input v-model="searchParameters" type='text' placeholder='Trefwoord..' class='
+              <input v-model="searchParameters" @keyup="searchEvents()" type='text' placeholder='Trefwoord..' class='
                                   form-control
                                   bg-none
                                   text-color-light
@@ -36,60 +36,59 @@
 
     	data() {
 		   return {
-		      news: null,
-          newsHeadline: null,
-          searchParameters: null,
-          loading: false,
-          isVisible: false,
+		        news: null,
+                newsHeadline: null,
+                searchParameters: null,
+                loading: false,
+                isVisible: false,
+                referenceNews: null,
 		   }
 		},
 
         mounted() {
             console.log('Component mounted.');
-
-            Factory.getStaticInstance('news').all().then((news) => {
-                if(news.length === 0) {
-                  this.isVisible = true;
-                } else {
-                  this.isVisible = false;
-                }
-
-                this.newsHeadline = news.shift();
-                if(this.limit != null){
-                    this.news = news.splice(0, this.limit);
-                }else{
-                    this.news = news;
-                }
-            });
+        
+            this.getAllNews();
+            
         },
 
          methods:{
-            searchEvents(){
-
-                if(this.searchParameters.length >= 3){
-                  this.loading = true;
-
-                  Factory.getStaticInstance('news').search(this.searchParameters).then((news) => {
-                    if(news.length == 0) {
-                      this.isVisible = true;
+             getAllNews(){
+                Factory.getStaticInstance('news').all().then((news) => {
+                    if(news.length === 0) {
+                    this.isVisible = true;
                     } else {
-                      this.isVisible = false;
+                    this.isVisible = false;
                     }
-
                     this.newsHeadline = news.shift();
-
                     if(this.limit != null){
                         this.news = news.splice(0, this.limit);
                     }else{
                         this.news = news;
                     }
-                  });
+                });
+             },
 
-                  setTimeout(() => {
-                    this.loading = false;
-                  }, 500);
+            searchEvents(){
+                if(this.searchParameters.length > 3){
+                  this.loading = true;
+
+                  Factory.getStaticInstance('news')
+					   .where({
+							search: this.searchParameters,
+						}).then((news) => {
+                            if(news.length === 0) {
+                                this.isVisible = true;
+                            } else {
+                                this.isVisible = false;
+                            }
+
+                            this.newsHeadline = news.shift();
+                            this.news = news;
+                            this.loading = null;
+						});
                 }else{
-                  alert('Minimaal 3 tekens invoeren.');
+                  this.getAllNews();
                 }
             }
 

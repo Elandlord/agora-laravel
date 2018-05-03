@@ -81,6 +81,23 @@ class Model {
             });
     }
 
+    static where(parameters) {
+        // TODO : throw an exception if Factory.className is undefined
+        return new Promise((resolve, reject) => {
+            let className = Factory.classNames.shift();
+
+            let data = API.buildQueryString(parameters);
+            API.get(`${className}/where?` + data).then((objects) => {
+                resolve(
+                    _.map(objects, (object) => {
+                        return Factory.getInstanceOf(className, object);
+                    })
+                );
+            }, reject);
+
+            });
+    }
+
     save() {
         return new Promise((resolve, reject) => {
             API.post(Helper.lcfirst(this.constructor.name), this.data()).then((data) => {

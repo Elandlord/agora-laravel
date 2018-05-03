@@ -52,6 +52,9 @@ Route::group(['namespace' => $plugin_namespace], function() {
     Route::post('/file-upload',     "FileSystem\Controllers\DossierController@store");
     
 });
- Route::resource('agenda', 'api\AgendaController');
- Route::resource('news', 'api\NewsController');
- Route::resource('event', 'api\EventController');
+
+Route::get('news/where', 'api\NewsController@search');
+Route::get('event/where', 'api\Eventcontroller@search');
+
+Route::resource('news', 'api\NewsController');
+Route::resource('event', 'api\EventController');

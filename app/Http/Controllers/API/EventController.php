@@ -90,4 +90,10 @@ class EventController extends Controller
         Event::find($id)->delete();
         return response()->json([], 200);
     }
+
+    public function search(Request $request){
+        $search = "%". $request->input('search') . "%";
+        $events = Event::where("title", "LIKE", $search)->get();
+        return response()->json($events);
+    }
 }

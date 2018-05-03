@@ -21,6 +21,7 @@ class News extends Model
 
     protected $fillable = [
       'title',
+      'location',
       'body',
       'author',
       'publish_date',

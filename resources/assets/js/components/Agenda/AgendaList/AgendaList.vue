@@ -4,7 +4,7 @@
     <div class="row ">
       <div v-if="agendaItems != null && search == 'yes'">
         <div class='col-lg-8 space-outside-md'>
-          <input v-model="searchParameters" type='text' placeholder='Trefwoord..' class='
+          <input v-model="searchParameters" @keyup="searchEvents()" type='text' placeholder='Trefwoord..' class='
                               form-control
                               bg-none
                               text-color-light
@@ -56,61 +56,60 @@
     mounted() {
       console.log('agenda-list component is mounted');
 
-      Factory.getStaticInstance('event').all().then((agendaItems) => {
-          if(agendaItems.length == 0) {
-            this.isVisible = true;
-          } else {
-            this.isVisible = false;
-          }
+      this.getAllEvents();
 
-          if(this.headline != null){
-            this.agendaHeadline = agendaItems.shift();
-          }
-
-          if(this.limit != null){
-            this.agendaItems = agendaItems.splice(0, this.limit);
-          }else{
-            this.agendaItems = agendaItems;
-          }
-      });
     },
 
     methods:
       {
+        getAllEvents(){
+          Factory.getStaticInstance('event').all().then((agendaItems) => {
+              if(agendaItems.length == 0) {
+                this.isVisible = true;
+              } else {
+                this.isVisible = false;
+              }
+
+              if(this.headline != null){
+                this.agendaHeadline = agendaItems.shift();
+              }
+
+              if(this.limit != null){
+                this.agendaItems = agendaItems.splice(0, this.limit);
+              }else{
+                this.agendaItems = agendaItems;
+              }
+          });
+        },
+
         searchEvents(){
-            if(this.searchParameters.length >= 3){
-              this.loading = true;
+            if(this.searchParameters.length > 3){
+                  this.loading = true;
 
-              AgendaItem.search(this.searchParameters, (agendaItems) => {
+                  Factory.getStaticInstance('event')
+                    .where({
+                      search: this.searchParameters,
+                    }).then((events) => {
+                      if(events.length === 0) {
+                          this.isVisible = true;
+                      } else {
+                          this.isVisible = false;
+                      }
 
-                if(agendaItems.length == 0) {
-                  this.isVisible = true;
-                } else {
-                  this.isVisible = false;
-                }
+                      if(this.headline != null){
+                        this.agendaHeadline = events.shift();
+                      }
 
-                if(this.headline != null){
-                  this.agendaHeadline = agendaItems.shift();
-                }
-
-                if(this.limit != null){
-                  this.agendaItems = agendaItems.splice(0, this.limit);
-                }else{
-                  this.agendaItems = agendaItems;
-                }
-
-
-              });
-
-
-              setTimeout(() => {
-                this.loading = false;
-              }, 500);
+                      if(this.limit != null){
+                        this.agendaItems = events.splice(0, this.limit);
+                      }else{
+                        this.agendaItems = events;
+                      }
+                      this.loading = null;
+                  });
             }else{
-              alert('Minimaal 3 tekens invoeren.');
+              this.getAllEvents();
             }
-
-
         }
 
       },
